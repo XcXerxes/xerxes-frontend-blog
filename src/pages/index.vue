@@ -72,18 +72,18 @@ export default {
   h2 {
     color: rgba(243, 255, 255, .95);
     font-weight: 400;
-    font-size: 2rem;
+    font-size: 1.4rem;
     letter-spacing: 2px;
   }
   h3 {
     color: rgba(233, 255, 255, .95);
     font-weight: 400;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     letter-spacing: 2px;
   }
   @at-root {
     .xcxerxes-content__btn {
-      margin-top: 3rem;
+      margin-top: 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,7 +92,7 @@ export default {
       text-decoration: none;
       color: #fff;
       background: rgba(239, 98, 73, 0.7);
-      padding: 10px 30px;
+      padding: 13px 30px;
       margin-right: 10%;
       border-radius: 4px;
       &:hover {
