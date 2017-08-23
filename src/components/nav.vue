@@ -54,7 +54,9 @@ export default {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 120px;
+    padding: 1rem 0.25rem;
+    width: 140px;
+    box-sizing: border-box;
     background: #020202;
     text-align: center;
     @at-root {
@@ -84,7 +86,7 @@ export default {
             right: 0;
             p {
                 color: #e43256;
-                margin-bottom: 15px;
+                margin: 0 0 15px 5px;
                 text-align: left;
             }
             img {
@@ -98,7 +100,7 @@ export default {
             right: 0;
             p {
                 color: #e43256;
-                margin-bottom: 15px;
+                margin: 0 0 15px 5px;
                 text-align: left;
             }
             a {

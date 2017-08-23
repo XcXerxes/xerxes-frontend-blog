@@ -65,21 +65,26 @@ export default {
 
 .xcxerxes-content {
   position: absolute;
-  top: 25%;
+  top: 30%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
+  width: 100%;
+  padding: 0 2rem;
+  box-sizing: border-box;
   h2 {
     color: rgba(243, 255, 255, .95);
     font-weight: 400;
     font-size: 1.4rem;
     letter-spacing: 2px;
+    margin-bottom: 30px;
   }
   h3 {
     color: rgba(233, 255, 255, .95);
     font-weight: 400;
     font-size: 1.2rem;
     letter-spacing: 2px;
+    margin-bottom: 50px;
   }
   @at-root {
     .xcxerxes-content__btn {
@@ -92,7 +97,7 @@ export default {
       text-decoration: none;
       color: #fff;
       background: rgba(239, 98, 73, 0.7);
-      padding: 13px 30px;
+      padding: 15px 30px;
       margin-right: 10%;
       border-radius: 4px;
       &:hover {

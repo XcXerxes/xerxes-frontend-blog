@@ -11,6 +11,7 @@ html {
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
   font-size: 20px;
+  font-weight: 300;
 }
 
 /**
@@ -449,6 +450,9 @@ a,
 p,
 span {
   font-size: 0.7rem;
+}
+img {
+  max-width: 100%;
 }
 
 
