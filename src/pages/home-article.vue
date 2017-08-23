@@ -1,10 +1,13 @@
 <template>
   <section class="home-wrapper">
-    <home-tabs :tabs="tabs" :activeId='acriveId' v-on:active-handle="tabsChange" :article-list="articleList"/>
+    <div class="home-wrapper__content">
+      <home-tabs :tabs="tabs" :activeId='acriveId' v-on:active-handle="tabsChange" :article-list="articleList"/>
+    </div>
   </section>
 </template>
 <script>
 import homeTabs from '@/components/tabs'
+import api from '@/api'
 export default {
   data () {
     return {
@@ -23,12 +26,23 @@ export default {
   methods: {
     tabsChange (tab) {
       this.acriveId = tab.name
+    },
+    async fetchCateData () {
+      try {
+        const data = await api.getCateList()
+        if (data.code === 200) {
+          this.tabs = data.data
+        }
+      } catch (e) {
+        this.$message.error(e.des)
+      }
     }
   },
   created () {
     for (let i = 0; i < 12; i++) {
       this.articleList.push({
-        thumb: 'http://pic48.nipic.com/file/20140912/7487939_223919315000_2.jpg',
+        title: 'CSS技巧： 如何实现完美底部',
+        thumb: 'http://img.hb.aicdn.com/29dbd6516738907cf0e35a95757e25fab4d0b29f396df-f7nthN_fw580',
         caption: '移动侦测，英文翻译为“Motion detection technology”，按照一定算法进行计算和比较'
       })
     }
@@ -38,16 +52,17 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .home-wrapper {
-    position: absolute;
-    left: 140px;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    box-sizing: border-box;
-    padding: 2rem;
-    background: #f2f2f2;
+    @at-root {
+      .home-wrapper__content {
+        box-sizing: border-box;
+        padding: 1rem 2rem;
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
   }
 </style>
 

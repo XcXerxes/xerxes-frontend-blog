@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import './assets/scss/normalize.scss'
+import './assets/scss/public.scss'
 import './assets/css/ionicons.min.css'
 import './element-config'
 
