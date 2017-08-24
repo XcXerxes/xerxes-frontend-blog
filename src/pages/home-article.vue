@@ -27,18 +27,17 @@ export default {
     tabsChange (tab) {
       this.acriveId = tab.name
     },
-    async fetchCateData () {
-      try {
-        const data = await api.getCateList()
-        if (data.code === 200) {
-          this.tabs = data.data
-        }
-      } catch (e) {
-        this.$message.error(e.des)
-      }
+    fetchCateData () {
+      debugger
+      api.getCateList().then(data => {
+        console.log(data)
+        this.tabs = data.data
+        // this.$message.error(e.des)
+      })
     }
   },
   created () {
+    this.fetchCateData()
     for (let i = 0; i < 12; i++) {
       this.articleList.push({
         title: 'CSS技巧： 如何实现完美底部',

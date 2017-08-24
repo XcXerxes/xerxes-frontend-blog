@@ -10,10 +10,13 @@ const checkStatus = (response) => {
   }
 }
 
-const _parseResponse = (response) => response.json()
+const _parseResponse = (response) => {
+  return response.text()
+}
 
 // 解析参数
 
+/*
 const _parseParams = (method, params) => {
   const headers = {
     'Content-Type': 'application/json'
@@ -30,13 +33,24 @@ const _parseParams = (method, params) => {
     method: method || 'GET'
   }
 }
+*/
 
 export default {
   getCateList () {
-    return fetch(`${config}/frontend/cate/list`, _parseParams())
+    return fetch(`${config.api}/frontend/cate/list`, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then(checkStatus)
       .then(_parseResponse)
-      .then(data => data)
-      .catch(err => err)
+      .then(data => {
+        debugger
+        return data
+      })
+      .catch(err => {
+        debugger
+        return err
+      })
   }
 }
