@@ -1,43 +1,66 @@
 <template>
   <section class="home-wrapper">
-    <div class="home-wrapper__content">
-      <home-tabs :tabs="tabs" :activeId='acriveId' v-on:active-handle="tabsChange" :article-list="articleList"/>
+    <div class="home-wrapper__content" v-loading="homeLoading" element-loading-text="拼命加载中...">
+      <home-tabs :tabs="tabs" :activeId='activeCateId' v-on:active-handle="tabsChange" :article-list="articleList" />
     </div>
   </section>
 </template>
 <script>
 import homeTabs from '@/components/tabs'
 import api from '@/api'
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      tabs: [
+      /* tabs: [
         {id: '001', cate_name: 'CSS设计模式', cate_sort: 1},
         {id: '002', cate_name: 'NodeJs', cate_sort: 3},
         {id: '003', cate_name: 'vue全面讲解', cate_sort: 4},
         {id: '004', cate_name: 'react精髓', cate_sort: 5},
         {id: '005', cate_name: 'web无线端', cate_sort: 2}
       ],
-      acriveId: '001',
+      activeCateId: '001', */
       articleList: [
       ]
     }
   },
+  computed: {
+    ...mapGetters([
+      'tabs',
+      'activeCateId',
+      'homeLoading'
+    ])
+  },
   methods: {
     tabsChange (tab) {
-      this.acriveId = tab.name
+      this.$store.commit('selected_cate', {name: tab.name})
     },
-    fetchCateData () {
-      debugger
-      api.getCateList().then(data => {
-        console.log(data)
-        this.tabs = data.data
-        // this.$message.error(e.des)
-      })
+    async fetchCateData () {
+      try {
+        const data = await api.getCateList()
+      // console.log(data)
+        if (data.code === 200) {
+          if (data.data.length > 1) {
+            this.tabs = data.data.sort((a, b) => {
+              return a.cate_sort - b.cate_sort
+            })
+            console.log(this.tabs)
+          } else {
+            this.tabs = data.data
+          }
+          if (data.data.length > 0) {
+            this.acriveId = data.data[0].id
+          }
+        } else {
+          this.$message.error(data.message)
+        }
+      } catch (error) {
+        this.$message.error(error)
+      }
     }
   },
   created () {
-    this.fetchCateData()
+    this.$store.dispatch('fetchCateList')
     for (let i = 0; i < 12; i++) {
       this.articleList.push({
         title: 'CSS技巧： 如何实现完美底部',

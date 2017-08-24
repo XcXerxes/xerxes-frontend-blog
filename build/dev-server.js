@@ -45,6 +45,7 @@ compiler.plugin('compilation', function (compilation) {
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
   var options = proxyTable[context]
+  console.log(options)
   if (typeof options === 'string') {
     options = { target: options }
   }

@@ -7,6 +7,7 @@ import './assets/scss/normalize.scss'
 import './assets/scss/public.scss'
 import './assets/css/ionicons.min.css'
 import './element-config'
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
