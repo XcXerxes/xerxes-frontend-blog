@@ -1,7 +1,18 @@
 <template>
     <div class="xcxerxes-aside">
         <div class="xcxerxes-aside__search">
-            <el-input placeholder="关键字" />
+            <input class="xcxerxes-input aside-search__input" placeholder="关键字" />
+            <i class="ion-ios-search"></i>
+        </div>
+        <div class="xcxerxes-aside__user">
+            <el-button class="aside-user__regist" type="text" @click="dialogRegistVisible = true">注册</el-button>
+            <el-dialog title="注册信息" :visible.sync="dialogRegistVisible">
+                <register-form v-on:regist-change="registChange"></register-form>
+            </el-dialog>
+            <el-button class="aside-user__login" type="text" @click="dialogLoginVisible = true">登录</el-button>
+            <el-dialog title="登录信息" :visible.sync="dialogLoginVisible">
+                <login-form v-on:login-change="loginChange"></login-form>
+            </el-dialog>
         </div>
         <div class="xcxerxes-aside__nav">
             <p>博客导航</p>
@@ -29,9 +40,14 @@
 </template>
 <script>
 import xcxerxesLinkList from './link-list'
+import api from '@/api'
+import registerForm from './register-form'
+import loginForm from './login-form'
 export default {
   data () {
     return {
+      dialogRegistVisible: false,
+      dialogLoginVisible: false,
       linkList: [
         { title: '百度FEX', url: 'http://fex.baidu.com/' },
         { title: '淘宝FED', url: 'http://taobaofed.org/' },
@@ -43,8 +59,37 @@ export default {
       ]
     }
   },
+  methods: {
+    loginChange (loginForm) {
+      console.log(loginForm)
+      api.login(loginForm).then(data => {
+        console.log(data)
+        this.dialogLoginVisible = false
+        this.$message({
+          type: 'success',
+          message: '成功'
+        })
+        console.log(document.cookie)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    registChange (registForm) {
+      console.log(registForm)
+      api.register(registForm).then(data => {
+
+      }).catch(err => {
+        console.error(err)
+      })
+    }
+  },
+  created () {
+    debugger
+  },
   components: {
-    xcxerxesLinkList
+    xcxerxesLinkList,
+    registerForm,
+    loginForm
   }
 }
 </script>
@@ -60,14 +105,45 @@ export default {
     background: #020202;
     text-align: center;
     @at-root {
+        .xcxerxes-aside__user {
+            margin-top: 15px;
+            @at-root {
+                .aside-user__regist,
+                .aside-user__login
+                 {
+                     color: rgba(233, 233, 233, 0.9);
+                }
+                &:hover {
+                    color: rgba(255, 255, 255, 1);
+                }
+            }
+        }
         .xcxerxes-aside__search {
             margin-top: 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            i {
+                position: absolute;
+                right: 2px;
+                color: #fff;
+                top: 0;
+                cursor: pointer;
+            }
+            @at-root {
+                .aside-search__input {
+                    padding-left: 5px;
+                    box-sizing: border-box;
+                    color: #fff;
+                }
+            }
         }
         .xcxerxes-aside__nav {
-            margin-top: 20px;
+            margin-top: 60px;
             p {
                 color: #e43256;
                 text-align: left;
+                margin-bottom: 10px;
             }
             li {
                 line-height: 36px;

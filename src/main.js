@@ -8,7 +8,6 @@ import './assets/scss/public.scss'
 import './assets/css/ionicons.min.css'
 import './element-config'
 import store from './store'
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="20">
     <el-col :sm="24" :md="6" v-for="(item, index) in articleList" :key="index">
-      <div class="card-item">
+      <div class="card-item" @click="openToItem(item)">
         <div class="card-item__body">
           <img :src="formatImg(item.thumb)" alt="" />
         </div>
@@ -14,11 +14,20 @@
   </el-row>
 </template>
 <script>
+import config from '@/config'
 export default {
-  props: ['articleList'],
+  props: {
+    articleList: {
+      type: Array,
+      required: true
+    }
+  },
   methods: {
     formatImg (img) {
-      return img
+      return `${config.imgUrl}${img}`
+    },
+    openToItem (item) {
+      this.$emit('item-change', item)
     }
   }
 }
@@ -33,7 +42,7 @@ export default {
     .card-item {
       width: 100%;
       box-sizing: border-box;
-      height: 212px;
+      height: 222px;
       padding-bottom: 5px;
       overflow: hidden;
       margin-bottom: 20px;
@@ -58,7 +67,7 @@ export default {
           h3 {
             font-size: 0.75rem;
             line-height: 1.2;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             text-overflow: ellipsis;
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;

@@ -2,7 +2,7 @@
   <el-tabs :active-name="activeId" @tab-click="handleClick">
     <el-tab-pane v-for="(item, index) in tabs"
      :key="index" :label="item.cate_name" :name="item.id">
-      <card-list :article-list="articleList" />
+      <card-list :article-list="articleList" v-on:item-change="cardChange" />
      </el-tab-pane>
   </el-tabs>
 </template>
@@ -10,7 +10,20 @@
 import _ from 'lodash'
 import cardList from '@/components/card-list'
 export default {
-  props: ['tabs', 'activeId', 'articleList'],
+  props: {
+    tabs: {
+      type: Array,
+      required: true
+    },
+    activeId: {
+      type: String,
+      required: true
+    },
+    articleList: {
+      type: Array,
+      required: true
+    }
+  },
   computed: {
     computedTabs () {
       // is array
@@ -29,6 +42,9 @@ export default {
   methods: {
     handleClick (tab, event) {
       this.$emit('active-handle', tab)
+    },
+    cardChange (item) {
+      this.$emit('card-change', item)
     }
   },
   components: {
