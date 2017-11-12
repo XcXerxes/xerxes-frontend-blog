@@ -7,7 +7,7 @@
     </el-form-item>
     <el-form-item label="密码" prop="password">
       <el-col :md="20" :xs="22">
-        <el-input placeholder="用户名/邮箱" v-model="loginForm.password"></el-input>
+        <el-input type="password" placeholder="用户名/邮箱" v-model="loginForm.password"></el-input>
       </el-col>
     </el-form-item>
     <el-form-item>

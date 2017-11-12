@@ -38,13 +38,16 @@ export default {
       this.$router.push({name: 'articleDetail', params: {id: item.id}})
     },
     tabsChange (tab) {
+      this.$router.replace({name: 'HomeArticle', query: {cate: tab.name}})
       if (this.activeCateId !== tab.name) {
+        /*
         this.$store.commit('selected_cate', {name: tab.name})
         this.$store.dispatch('fetchArticleList', {
           limit: this.limit,
           page: this.page,
           categoryId: tab.name
         })
+        */
       }
     },
     async fetchCateData () {
@@ -71,11 +74,29 @@ export default {
       }
     }
   },
+  watch: {
+    $route (route) {
+      console.log('route')
+      const name = route.query.cate
+      this.$store.commit('selected_cate', {name})
+      this.$store.dispatch('fetchArticleList', {
+        limit: this.limit,
+        page: this.page,
+        categoryId: name
+      })
+    }
+  },
   created () {
-    this.$store.dispatch('fetchCateList')
+    const name = this.$route.query.cate || ''
+    console.log(`name======${name}`)
+    this.$store.dispatch('fetchCateList').then(() => {
+      this.$store.commit('selected_cate', {name})
+    })
+    console.log('created')
     this.$store.dispatch('fetchArticleList', {
       page: this.page,
-      limit: this.limit
+      limit: this.limit,
+      categoryId: name
     })
     /* for (let i = 0; i < 12; i++) {
       this.articleList.push({

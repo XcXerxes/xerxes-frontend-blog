@@ -10,7 +10,7 @@
       <h2 class="el" style="transform: translateY(-500px)">每天一点点， 进步多一点 !</h2>
       <h3 class="el" style="transform: translateY(-500px)">一个人最大的幸福， 莫过于他喜欢的事物赐予他的快乐</h3>
       <div class="xcxerxes-content__btn el" style="transform: translateY(-500px)">
-        <router-link to="/home" class="content-btn__home">进入主页</router-link>
+        <router-link :to="{name: 'HomeArticle', query: {cate: 'all_001'}}" class="content-btn__home">进入主页</router-link>
         <el-button class="content-btn__github" @click.native="openGithub">
           <i class="ion-social-github index"></i> github
         </el-button>
@@ -28,7 +28,6 @@ export default {
     }
   },
   mounted () {
-    debugger
     const videos = new Vidage('#VidageVideo', ['', '.Vidage__video'])
     console.log(videos)
     console.log(anime)

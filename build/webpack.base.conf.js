@@ -9,7 +9,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: process.env.NODE_ENV === 'development' ? './src/main.js' : ['./build/polyfills.js', './src/main.js']
+    app: process.env.NODE_ENV === 'production' ? ['./build/polyfills.js', './src/main.js'] : './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,

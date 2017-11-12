@@ -4,7 +4,7 @@
             <input class="xcxerxes-input aside-search__input" placeholder="关键字" />
             <i class="ion-ios-search"></i>
         </div>
-        <div class="xcxerxes-aside__user">
+        <div class="xcxerxes-aside__user" v-if="!isLogin">
             <el-button class="aside-user__regist" type="text" @click="dialogRegistVisible = true">注册</el-button>
             <el-dialog title="注册信息" :visible.sync="dialogRegistVisible">
                 <register-form v-on:regist-change="registChange"></register-form>
@@ -13,6 +13,9 @@
             <el-dialog title="登录信息" :visible.sync="dialogLoginVisible">
                 <login-form v-on:login-change="loginChange"></login-form>
             </el-dialog>
+        </div>
+        <div class="xcxerxes-aside__login" v-else>
+            <span style="color: #fff;">{{username}}</span>
         </div>
         <div class="xcxerxes-aside__nav">
             <p>博客导航</p>
@@ -56,7 +59,9 @@ export default {
         { title: '凹凸实验室', url: 'https://aotu.io/' },
         { title: 'ISUX', url: 'http://isux.tencent.com/' },
         { title: '携程UED', url: 'https://aotu.io/' }
-      ]
+      ],
+      username: '',
+      isLogin: false
     }
   },
   methods: {
@@ -65,6 +70,8 @@ export default {
       api.login(loginForm).then(data => {
         console.log(data)
         this.dialogLoginVisible = false
+        this.isLogin = true
+        this.username = loginForm.username
         this.$message({
           type: 'success',
           message: '成功'
@@ -82,9 +89,6 @@ export default {
         console.error(err)
       })
     }
-  },
-  created () {
-    debugger
   },
   components: {
     xcxerxesLinkList,

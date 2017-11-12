@@ -40,8 +40,16 @@ export default {
     }
   },
   created () {
-    debugger
     console.log(Cookies.get())
+    const loading = this.$loading({
+      lock: true,
+      text: '拼命加载中...',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.7)'
+    })
+    setTimeout(() => {
+      loading.close()
+    }, 10000)
     const id = this.$route.params.id
     this.$store.dispatch('fetchArticleItem', {id}).then(() => {
     })

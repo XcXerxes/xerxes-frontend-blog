@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import {Button, Row, Col, Input, Spinner, Tabs, TabPane, Loading, Message, Icon, Form, FormItem, Dialog} from 'element-ui'
 
 Vue.use(Button)

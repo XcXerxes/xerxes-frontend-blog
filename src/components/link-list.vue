@@ -1,6 +1,6 @@
 <template>
   <ul class="link-list">
-    <li v-for="(item, index) in data" class="link-list__item"><a :href="item.url">{{item.title}}</a></li>
+    <li v-for="(item, index) in data" :key="index" class="link-list__item"><a :href="item.url">{{item.title}}</a></li>
   </ul>
 </template>\
 <script>
