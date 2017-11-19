@@ -6081,6 +6081,10 @@ stdout-stream@^1.4.0:
   dependencies:
     readable-stream "^2.0.1"
 
+store2@^2.5.9:
+  version "2.5.9"
+  resolved "http://registry.npm.taobao.org/store2/download/store2-2.5.9.tgz#587e62bd9dbea50cfc9ca367927eee0eff99937b"
+
 stream-browserify@^2.0.1:
   version "2.0.1"
   resolved "http://registry.npm.taobao.org/stream-browserify/download/stream-browserify-2.0.1.tgz#66266ee5f9bdb9940a4e4514cafb43bb71e5c9db"
@@ -6646,9 +6650,9 @@ vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
-vue-template-compiler@^2.3.3:
-  version "2.4.2"
-  resolved "http://registry.npm.taobao.org/vue-template-compiler/download/vue-template-compiler-2.4.2.tgz#5a45d843f148b098f6c1d1e35ac20c4956d30ad1"
+vue-template-compiler@^2.5.3:
+  version "2.5.5"
+  resolved "http://registry.npm.taobao.org/vue-template-compiler/download/vue-template-compiler-2.5.5.tgz#0cfb47c784f75500d94aa57d2220bb324b59fae0"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -6657,9 +6661,9 @@ vue-template-es2015-compiler@^1.2.2:
   version "1.5.3"
   resolved "http://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.5.3.tgz#22787de4e37ebd9339b74223bc467d1adee30545"
 
-vue@2.3.3:
-  version "2.3.3"
-  resolved "http://registry.npm.taobao.org/vue/download/vue-2.3.3.tgz#d1eaa8fde5240735a4563e74f2c7fead9cbb064c"
+vue@^2.5.3:
+  version "2.5.5"
+  resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.5.tgz#cc3cd9b2a4f1d7356861ae0f71da0e6beb091910"
 
 vuex@^2.3.1:
   version "2.3.1"

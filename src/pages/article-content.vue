@@ -1,6 +1,6 @@
 <template>
-  <section class="home-wrapper article-wrapper">
-    <div class="article-wrapper__content">
+  <section class="home-wrapper article-wrapper" id="article-wrapper">
+    <div class="article-wrapper__content" ref="el" style="transform: translateX(1920px)">
       <div class="article-wrapper__title">
         <h2>{{articleItem.title}}</h2>
         <p>In <span :style="{color: '#e43256'}">{{formatCate}}</span> on <span :style="{color: '#e43256'}">{{formatTime}}</span> By <span :style="{color: '#e43256'}">xcxerxes</span></p>
@@ -18,6 +18,7 @@ import Cookies from 'js-cookie'
 import commentForm from '@/components/comment-form'
 import {mapGetters} from 'vuex'
 import moment from 'moment'
+import anime from 'animejs'
 import 'github-markdown-css/github-markdown.css'
 export default {
   computed: {
@@ -41,17 +42,16 @@ export default {
   },
   created () {
     console.log(Cookies.get())
-    const loading = this.$loading({
-      lock: true,
-      text: '拼命加载中...',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)'
-    })
-    setTimeout(() => {
-      loading.close()
-    }, 10000)
     const id = this.$route.params.id
-    this.$store.dispatch('fetchArticleItem', {id}).then(() => {
+    this.$store.dispatch('fetchArticleItem', {id})
+  },
+  mounted () {
+    console.log(anime)
+    anime({
+      targets: this.$refs.el,
+      translateX: 0,
+      duration: 600,
+      easing: 'easeInOutQuart'
     })
   },
   components: {
@@ -92,5 +92,3 @@ export default {
     }
   }
 </style>
-
-

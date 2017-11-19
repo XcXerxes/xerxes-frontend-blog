@@ -5,7 +5,7 @@
             <i class="ion-ios-search"></i>
         </div>
         <div class="xcxerxes-aside__user" v-if="!isLogin">
-            <el-button class="aside-user__regist" type="text" @click="dialogRegistVisible = true">注册</el-button>
+            <el-button class="aside-user__regist" type="text" @click="registHandle">注册</el-button>
             <el-dialog title="注册信息" :visible.sync="dialogRegistVisible">
                 <register-form v-on:regist-change="registChange"></register-form>
             </el-dialog>
@@ -21,7 +21,7 @@
             <p>博客导航</p>
             <ul class="xcxerxes-aside__ul">
                 <li>
-                    <router-link to="/home">首页</router-link>
+                    <router-link :to="{name: 'HomeArticle', query: {cate: 'all_001'}}">首页</router-link>
                 </li>
                 <li>
                     <router-link to="/book">图书推荐</router-link>
@@ -46,6 +46,7 @@ import xcxerxesLinkList from './link-list'
 import api from '@/api'
 import registerForm from './register-form'
 import loginForm from './login-form'
+import store2 from 'store2'
 export default {
   data () {
     return {
@@ -65,19 +66,26 @@ export default {
     }
   },
   methods: {
+    registHandle () {
+      this.dialogRegistVisible = true
+    },
     loginChange (loginForm) {
       console.log(loginForm)
       api.login(loginForm).then(data => {
         console.log(data)
-        this.dialogLoginVisible = false
-        this.isLogin = true
-        this.username = loginForm.username
-        this.$message({
-          type: 'success',
-          message: '成功'
-        })
+        if (data.code === 200) {
+          this.dialogLoginVisible = false
+          this.isLogin = true
+          this.username = loginForm.username
+          this.$message({
+            type: 'success',
+            message: '登录成功'
+          })
+          store2.set('user_name', this.username)
+        }
         console.log(document.cookie)
       }).catch(err => {
+        debugger
         console.log(err)
       })
     },
@@ -88,6 +96,12 @@ export default {
       }).catch(err => {
         console.error(err)
       })
+    }
+  },
+  created () {
+    if (store2.get('user_name')) {
+      this.username = store2.get('user_name')
+      this.isLogin = true
     }
   },
   components: {
