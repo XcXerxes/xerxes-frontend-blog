@@ -15,7 +15,7 @@
             </el-dialog>
         </div>
         <div class="xcxerxes-aside__login" v-else>
-            <span style="color: #fff;">{{username}}</span>
+            <span style="color: #fff;">{{userInfo.login_username}}</span>
         </div>
         <div class="xcxerxes-aside__nav">
             <p>博客导航</p>
@@ -46,7 +46,7 @@ import xcxerxesLinkList from './link-list'
 import api from '@/api'
 import registerForm from './register-form'
 import loginForm from './login-form'
-import store2 from 'store2'
+import {mapGetters} from 'vuex'
 export default {
   data () {
     return {
@@ -65,6 +65,11 @@ export default {
       isLogin: false
     }
   },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
   methods: {
     registHandle () {
       this.dialogRegistVisible = true
@@ -81,11 +86,9 @@ export default {
             type: 'success',
             message: '登录成功'
           })
-          store2.set('user_name', this.username)
+          this.$store.commit('user_info_receive')
         }
-        console.log(document.cookie)
       }).catch(err => {
-        debugger
         console.log(err)
       })
     },
@@ -99,9 +102,11 @@ export default {
     }
   },
   created () {
-    if (store2.get('user_name')) {
-      this.username = store2.get('user_name')
+    this.$store.commit('user_info_receive')
+    if (this.$store.getters.userInfo.login_username) {
       this.isLogin = true
+    } else {
+      this.isLogin = false
     }
   },
   components: {

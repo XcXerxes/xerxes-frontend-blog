@@ -6,7 +6,6 @@ const state = {
   loading: false,
   total: 0,
   articleList: []
-
 }
 
 const getters = {

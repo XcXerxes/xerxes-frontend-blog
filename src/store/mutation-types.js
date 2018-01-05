@@ -11,3 +11,6 @@ export const SELECTED_CATE = 'selected_cate'
 export const ARTICLE_ITEM_REQUEST = 'article_item_request'
 export const ARTICLE_ITEM_RECEIVE = 'article_item_receive'
 export const ARTICLE_ITEM_FAIL = 'article_item_fail'
+
+// user
+export const USER_INFO_RECEIVE = 'user_info_receive'

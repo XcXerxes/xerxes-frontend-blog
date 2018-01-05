@@ -36,7 +36,14 @@ const _parseParams = (method, params) => {
 export default {
   // 登录页面
   login (params) {
-    return fetch(`${config.api}/frontend/user/login`, _parseParams('POST', params))
+    return fetch(`${config.api}/frontend/user/login`, {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      credentials: 'same-origin',
+      method: 'POST',
+      body: JSON.stringify(params)
+    })
     .then(checkStatus)
     .then(_parseResponse)
     .then(data => data)
