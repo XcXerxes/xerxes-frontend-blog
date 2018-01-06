@@ -38,7 +38,8 @@ export default {
       this.$router.push({name: 'articleDetail', params: {id: item.id}})
     },
     tabsChange (tab) {
-      this.$router.replace({name: 'HomeArticle', query: {cate: tab.name}})
+      debugger
+      this.$router.replace({name: 'HomeArticle', query: {cate: tab.id}})
       if (this.activeCateId !== tab.name) {
         /*
         this.$store.commit('selected_cate', {name: tab.name})

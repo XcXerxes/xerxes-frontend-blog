@@ -6,9 +6,9 @@
         </div> -->
         <div class="xcxerxes-aside__user" v-if="!isLogin">
             <el-button class="aside-user__regist" type="text" @click="registHandle">注册</el-button>
-            <el-dialog title="注册信息" :visible.sync="dialogRegistVisible">
+            <v-dialog transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible">
                 <register-form v-on:regist-change="registChange"></register-form>
-            </el-dialog>
+            </v-dialog>
             <el-button class="aside-user__login" type="text" @click="dialogLoginVisible = true">登录</el-button>
             <el-dialog title="登录信息" :visible.sync="dialogLoginVisible">
                 <login-form v-on:login-change="loginChange"></login-form>
@@ -50,7 +50,7 @@ import {mapGetters} from 'vuex'
 export default {
   data () {
     return {
-      dialogRegistVisible: false,
+      dialogRegistVisible: true,
       dialogLoginVisible: false,
       linkList: [
         { title: '百度FEX', url: 'http://fex.baidu.com/' },
@@ -149,7 +149,7 @@ export default {
             i {
                 position: absolute;
                 right: 2px;
-                color: #fff;
+                // color: #fff;
                 top: 0;
                 cursor: pointer;
             }

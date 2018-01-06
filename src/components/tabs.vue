@@ -1,5 +1,5 @@
 <template>
-<v-tabs v-model="activeId">
+<v-tabs v-model="activeId" grow>
   <v-toolbar color="black">
     <v-text-field
         solo
@@ -8,8 +8,8 @@
         prepend-icon="search"
       ></v-text-field>
     <v-tabs-bar color="transparent" dark slot="extension" >
-      <v-tabs-slider color="green accent-1"></v-tabs-slider>
-      <v-tabs-item v-for="(item, index) in tabs" :key="index" :href="'#' + activeId" @click="handleClick(item, $event)">
+      <v-tabs-slider color="pink"></v-tabs-slider>
+      <v-tabs-item v-for="(item, index) in tabs" :key="index" :href="'#' + item.id" @click="handleClick(item, $event)">
         <span style="color: white">{{item.cate_name}}</span>
       </v-tabs-item>
     </v-tabs-bar>
@@ -45,6 +45,11 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      index: this.activeId
+    }
+  },
   computed: {
     computedTabs () {
       // is array
@@ -60,9 +65,14 @@ export default {
       })
     }
   },
+  watch: {
+    activeId (val) {
+      this.index = val
+    }
+  },
   methods: {
     handleClick (tab, event) {
-      debugger
+      console.log(tab)
       this.$emit('active-handle', tab)
     },
     cardChange (item) {

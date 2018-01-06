@@ -1,7 +1,18 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :sm="24" :md="6" v-for="(item, index) in articleList" :key="index">
-      <div class="card-item" @click="openToItem(item)">
+  <v-content class="card-content">
+    <v-layout row wrap>
+      <v-flex lg3 md4 xs12  v-for="(item, index) in articleList" :key="index" class="pa-1">
+        <v-card @click.native="openToItem(item)">
+         <v-card-media height="150">
+           <img :src="formatImg(item.thumb)" alt="" />
+         </v-card-media>
+         <v-card-title class="card-title">
+           <h3 color="pink">{{item.title}}</h3>
+           <p>{{item.caption}}</p>
+        </v-card-title> 
+        </v-card>
+      </v-flex>
+      <!-- <div class="card-item" @click="openToItem(item)" v-for="(item, index) in articleList" :key="index">
         <div class="card-item__body">
           <img :src="formatImg(item.thumb)" alt="" />
         </div>
@@ -9,9 +20,9 @@
           <h3>{{item.title}}</h3>
           <p>{{item.caption}}</p>
         </div>
-      </div>
-    </el-col>
-  </el-row>
+      </div> -->
+    </v-layout>
+  </v-content>
 </template>
 <script>
 import config from '@/config'
@@ -33,6 +44,32 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.card-content {
+  padding: 5px;
+  .card-title {
+    padding: 5px;
+    h3 {
+      font-size: 16px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      overflow: hidden;
+      color: #e91e63;
+    }
+    p {
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+
+    }
+  }
+}
 .card-list {
   /* display: flex;
     justify-content: flex-start;

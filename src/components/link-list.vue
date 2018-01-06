@@ -15,7 +15,6 @@ export default {
 </script>
 <style lang="scss" scoped>
   .link-list__item {
-    font-size: 0;
     line-height: 22px;
     a {
       color: rgba(233, 233, 233, 0.9);

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import 'vuetify/src/stylus/main.styl'
-
+/*eslint-disable */
 import {
   Vuetify,
   VApp,
@@ -13,6 +13,9 @@ import {
   VToolbar,
   transitions,
   VTabs,
+  VCard,
+  VForm,
+  VDialog,
   VTextField
 } from 'vuetify'
 
@@ -25,9 +28,12 @@ Vue.use(Vuetify, {
     VBtn,
     VIcon,
     VGrid,
+    VCard,
     VToolbar,
     transitions,
     VTabs,
+    VForm,
+    VDialog,
     VTextField
   },
   theme: {
