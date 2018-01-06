@@ -116,7 +116,7 @@ export default {
     @at-root {
       .home-wrapper__content {
         box-sizing: border-box;
-        padding: 1rem 2rem;
+        padding: 0 10px;
         height: 100%;
         overflow: auto;
         -webkit-overflow-scrolling: touch;

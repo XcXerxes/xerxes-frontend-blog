@@ -1,11 +1,8 @@
 <template>
-  <section class="xcxerxes-wrapper">
-    <div class="xcxerxes-video">
-      <div class="xcxerxes-video__mask"></div>
-      <video id="VidageVideo" class="Vidage__video" preload="metadata" loop autoplay muted>
-        <source src="http://ui.specbee.com/sample/bird.mp4" type="video/mp4">
-      </video>
+  <section class="xcxerxes-wrapper" ref="wrapper">
+    <div class="xcxerxes-mask">
     </div>
+    <canvas id="canvas" ref="canvas"></canvas>
     <div class="xcxerxes-content" id="xcxerxes-content">
       <h2 class="el" style="transform: translateY(-500px)">每天一点点， 进步多一点 !</h2>
       <h3 class="el" style="transform: translateY(-500px)">一个人最大的幸福， 莫过于他喜欢的事物赐予他的快乐</h3>
@@ -19,8 +16,8 @@
   </section>
 </template>
 <script>
-import Vidage from 'vidage'
 import anime from 'animejs'
+import {initHeader, initAnimation, addListeners} from '@/utils/canvas'
 export default {
   methods: {
     openGithub () {
@@ -28,9 +25,6 @@ export default {
     }
   },
   mounted () {
-    const videos = new Vidage('#VidageVideo', ['', '.Vidage__video'])
-    console.log(videos)
-    console.log(anime)
     setTimeout(() => {
       anime({
         targets: '#xcxerxes-content .el',
@@ -42,24 +36,35 @@ export default {
         }
       })
     })
+    initHeader(this.$refs.wrapper, this.$refs.canvas)
+    initAnimation()
+    addListeners()
   }
 }
 </script>
 <style lang="scss">
-.xcxerxes-wrapper {}
-
-.xcxerxes-video {
-  position: absolute;
+.xcxerxes-wrapper {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   overflow: hidden;
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+  background: url('../assets/images/starsky.jpg') no-repeat;
+  background-size: cover;
+  canvas {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 30;
   }
+}
+.xcxerxes-mask {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .4);
 }
 
 .xcxerxes-content {
@@ -70,6 +75,7 @@ export default {
   text-align: center;
   width: 100%;
   padding: 0 2rem;
+  z-index: 50;
   box-sizing: border-box;
   h2 {
     color: rgba(243, 255, 255, .95);

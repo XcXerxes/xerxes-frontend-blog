@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import './vuetify'
 import 'babel-polyfill'
 import 'es6-promise/auto'
 import router from './router'

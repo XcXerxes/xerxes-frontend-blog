@@ -1,9 +1,9 @@
 <template>
     <div class="xcxerxes-aside">
-        <div class="xcxerxes-aside__search">
+        <!-- <div class="xcxerxes-aside__search">
             <input class="xcxerxes-input aside-search__input" placeholder="关键字" />
             <i class="ion-ios-search"></i>
-        </div>
+        </div> -->
         <div class="xcxerxes-aside__user" v-if="!isLogin">
             <el-button class="aside-user__regist" type="text" @click="registHandle">注册</el-button>
             <el-dialog title="注册信息" :visible.sync="dialogRegistVisible">
