@@ -12,6 +12,8 @@ import './assets/css/ionicons.min.css'
 import './element-config'
 import store from './store'
 import registerServiceWorker from './registerServiceWorker'
+
+window._ = require('lodash')
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

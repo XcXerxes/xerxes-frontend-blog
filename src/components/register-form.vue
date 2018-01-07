@@ -1,105 +1,74 @@
 <template>
   <v-layout wrap>
     <v-card style="width: 100%">
+        <v-toolbar color="black" dark dense>
+         <v-toolbar-title>用户注册</v-toolbar-title>
+         <v-spacer></v-spacer>
+          <v-btn icon @click.native="closeModal">
+            <v-icon>close</v-icon>
+          </v-btn>
+        </v-toolbar>
       <v-card-title>
-        <span class="headline">注册用户</span>
       </v-card-title>
       <v-card-text>
-        <v-form style="width: 100%">
+        <v-form style="width: 100%" v-model="valid" ref="form">
           <v-flex xs12>
-            <v-text-field label="用户名" prepend-icon="account_box" v-model="username"></v-text-field>
+            <v-text-field label="用户名" prepend-icon="account_box"
+            required :rules="usernameRule"
+             v-model="username"></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-text-field label="密码" prepend-icon="lock_outline" v-model="password"></v-text-field>
+            <v-text-field label="密码" prepend-icon="lock_outline"
+            required :rules="passwordRule"
+            :append-icon="eye ? 'visibility' : 'visibility_off'"
+            :append-icon-cb="() => eye = !eye"
+            :type="eye ? 'text' : 'password'"
+             v-model="password"></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-text-field label="邮箱" prepend-icon="email" v-model="xc_email"></v-text-field>
+            <v-text-field label="邮箱" prepend-icon="email"
+             required :rules="emailRule"       
+             v-model="xc_email">
+            </v-text-field>
           </v-flex>
-          <v-layout row wrap>
-            <v-flex xs5 offset-xs1>
-              <v-btn color="info">重置</v-btn>
-            </v-flex>
-            <v-flex xs5>
-              <v-btn color="primary" @click="submitForm">确定</v-btn>
-            </v-flex>
+          <v-layout justify-center align-center>
+            <v-btn color="info" @click="reset">重置</v-btn>
+            <v-btn color="primary" :loading="loading" :disabled="!valid" @click="submitForm">确定</v-btn>
           </v-layout>
         </v-form>
       </v-card-text>
     </v-card>
 </v-layout>
-  <!-- <el-form ref="ruleForm" :rules="rules" :model="ruleForm" label-width="80px">
-    <el-form-item label="用户名" prop="username">
-      <el-col :md="20" :xs="22">
-        <el-input size="small" placeholder="请输入用户名" v-model="ruleForm.username"></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="密码" prop="password">
-      <el-col :md="20" :xs="22">
-        <el-input size="small" placeholder="密码" type="password" v-model="ruleForm.password"></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="邮箱" prop="xc_email">
-      <el-col :md="20" :xs="22">
-        <el-input size="small" placeholder="邮箱" v-model="ruleForm.xc_email"></el-input>
-      </el-col>
-    </el-form-item>
-    <el-form-item label="验证码" required>
-      <div class="ln">
-			  <div id="dom_id"></div>
-		  </div>
-      <input type='hidden' :value='csessionid' name='csessionid'/>
-      <input type='hidden' :value='sig' name='sig'/>
-      <input type='hidden' :value='token' name='token'/>
-      <input type='hidden' :value='scene' name='scene'/>
-    </el-form-item>
-    <el-form-item>
-      <el-button :style="{width: '100%'}" type="primary" @click="submitForm('ruleForm')">立即注册</el-button>
-    </el-form-item>
-  </el-form> -->
 </template>
 <script>
-import api from '@/api'
+// import api from '@/api'
+import _ from 'lodash'
 export default {
-  data () {
-    var checkUserName = (rule, value, callback) => {
-      if (value) {
-        api.checkUserName({username: value}).then(data => {
-          if (data.code === 200) {
-            callback(new Error('用户名已存在'))
-          }
-        }).catch(err => {
-          callback(new Error(err))
-        })
-      }
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
     }
+  },
+  data () {
     return {
       username: '',
       password: '',
       xc_email: '',
-      vis: true,
-      ruleForm: {
-        username: '',
-        password: '',
-        xc_email: ''
-      },
-      rules: {
-        username: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
-          {validator: checkUserName, trigger: 'blur'}
-        ],
-        password: [
-          {required: true, message: '请输入密码', trigger: 'blur'},
-          {min: 8, max: 16, message: '最少要8位', trigger: 'blur'}
-        ],
-        xc_email: [
-          {required: true, message: '请输入邮箱', trigger: 'blur'},
-          {type: 'email', message: '请输入正确格式', trigger: 'blur'}
-        ]
-      },
-      csessionid: '',
-      sig: '',
-      token: '',
-      scene: ''
+      valid: true,
+      eye: false,
+      usernameRule: [
+        v => !!v || '用户名不能为空',
+        v => v && v.length >= 3 && v.length <= 15 || '位数必须在3～15位'
+      ],
+      passwordRule: [
+        v => !!v || '密码不能为空',
+        v => v && v.length >= 6 && v.length <= 15 || '密码不能为空'
+      ],
+      emailRule: [
+        v => !!v || '邮箱不能为空',
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || '邮箱格式不正确'
+      ]
     }
   },
   computed: {
@@ -112,37 +81,24 @@ export default {
       }
     }
   },
-  mounted () {
-    /* eslint-disable no-undef */
-    /* eslint-disable new-cap */
-    // const nc = new noCaptcha()
-    // // 应用标识,不可更改
-    // const ncAppkey = 'CF_APP_1'
-    // const ncScene = 'register'
-    // const ncToken = [ncAppkey, (new Date()).getTime(), Math.random()].join(':')
-    // const ncOption = {
-    //   // 渲染到该DOM ID指定的Div位置
-    //   renderTo: '#dom_id',
-    //   appkey: ncAppkey,
-    //   scene: ncScene,
-    //   token: ncToken,
-    //   // 测试用，特殊nc_appkey时才生效，正式上线时请务必要删除；code0:通过;code100:点击验证码;code200:图形验证码;code300:恶意请求拦截处理
-    //   trans: '{"name1":"code100"}',
-    //   callback: (data) => {
-    //     console.log(data.csessionid)
-    //     console.log(data.sig)
-    //     console.log(ncToken)
-    //     this.csessionid = data.csessionid
-    //     this.sig = data.sig
-    //     this.token = ncToken
-    //     this.scene = ncScene
-    //   }
-    // }
-    // nc.init(ncOption)
-  },
   methods: {
+    checkStatus () {
+      if (_.size(_.omitBy(this.registerForm, item => !item)) > 0) {
+        return true
+      }
+      return false
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    closeModal () {
+      this.reset()
+      this.$emit('close-handle')
+    },
     submitForm () {
-      this.$emit('regist-change', this.registerForm)
+      if (this.$refs.form.validate()) {
+        this.$emit('regist-change', this.registerForm, this.$refs.form)
+      }
     }
   }
 }

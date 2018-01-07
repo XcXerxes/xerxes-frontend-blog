@@ -13,9 +13,11 @@ const mutations = {
       /* eslint-disable */
       const login_userid = Cookies.get('login_userid')
       const login_username = Cookies.get('login_username')
+      const login_avatar = Cookies.get('login_avatar')
       state.userInfo = {
         login_userid,
-        login_username
+        login_username,
+        login_avatar
       }
     }
   }

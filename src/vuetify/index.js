@@ -16,7 +16,9 @@ import {
   VCard,
   VForm,
   VDialog,
-  VTextField
+  VTextField,
+  VDivider,
+  VProgressCircular
 } from 'vuetify'
 
 Vue.use(Vuetify, {
@@ -34,7 +36,9 @@ Vue.use(Vuetify, {
     VTabs,
     VForm,
     VDialog,
-    VTextField
+    VTextField,
+    VDivider,
+    VProgressCircular
   },
   theme: {
     primary: '#ee44aa',

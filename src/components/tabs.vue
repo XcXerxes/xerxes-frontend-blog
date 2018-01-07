@@ -1,31 +1,21 @@
 <template>
-<v-tabs v-model="activeId" grow>
-  <v-toolbar color="black">
-    <v-text-field
-        solo
-        label="Search"
-        append-icon="keyboard_voice"
-        prepend-icon="search"
-      ></v-text-field>
-    <v-tabs-bar color="transparent" dark slot="extension" >
-      <v-tabs-slider color="pink"></v-tabs-slider>
-      <v-tabs-item v-for="(item, index) in tabs" :key="index" :href="'#' + item.id" @click="handleClick(item, $event)">
-        <span style="color: white">{{item.cate_name}}</span>
-      </v-tabs-item>
-    </v-tabs-bar>
-  </v-toolbar>
-  <v-tabs-items>
-    <v-tabs-content :id="activeId">
+<v-toolbar color="black" dark tabs>
+  <v-toolbar-side-icon></v-toolbar-side-icon>
+  <v-text-field
+      light
+      label="Search"
+      append-icon="keyboard_voice"
+      prepend-icon="search"
+    ></v-text-field>
+  <v-tabs v-model="setIndx" grow color="black" slider-color="pink" slot="extension">
+    <v-tab v-for="(item, index) in tabs" :key="index"  @click="handleClick(item, index)">
+      <span style="color: white">{{item.cate_name}}</span>
+    </v-tab>
+    <v-tab-item>
       <card-list :article-list="articleList" v-on:item-change="cardChange" />
-    </v-tabs-content>  
-  </v-tabs-items>
-</v-tabs>
-  <!-- <el-tabs :active-name="activeId" @tab-click="handleClick">
-    <el-tab-pane v-for="(item, index) in tabs"
-     :key="index" :label="item.cate_name" :name="item.id">
-      <card-list :article-list="articleList" v-on:item-change="cardChange" />
-     </el-tab-pane>
-  </el-tabs> -->
+    </v-tab-item>  
+  </v-tabs>
+</v-toolbar>
 </template>
 <script>
 import _ from 'lodash'
@@ -47,10 +37,18 @@ export default {
   },
   data () {
     return {
-      index: this.activeId
+      idx: this.tabs.findIndex(item => item.id === this.activeId)
     }
   },
   computed: {
+    setIndx: {
+      get () {
+        return this.tabs.findIndex(item => item.id === this.activeId)
+      },
+      set (val) {
+        this.idx = val
+      }
+    },
     computedTabs () {
       // is array
       if (!_.isArray(this.tabs)) {
@@ -67,7 +65,7 @@ export default {
   },
   watch: {
     activeId (val) {
-      this.index = val
+      this.idx = this.tabs.findIndex(item => item.id === val)
     }
   },
   methods: {

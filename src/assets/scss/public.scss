@@ -14,3 +14,61 @@
   border-bottom: 1px solid #fff;
   width: 100%;
 }
+
+/*'#f44336', '#e91e63', '#673ab7', '#9c27b0', '#3f51b5', '#2196f3', '#03a9f4', '#4caf50', '#009688', '#8bc34a']*/
+.list__tile__avatar {
+  .avatar {
+    color: #fff;
+    font-size: 16px;
+  }
+   &.avatar-red {
+     .avatar {
+       background-color: #f44336;
+     }
+   }
+   &.avatar-pink {
+     .avatar {
+       background-color: #e91e63;
+     }
+   }
+   &.avatar-purple {
+     .avatar {
+       background-color: #673ab7;
+     }
+   }
+   &.avatar-deep-purple {
+     .avatar {
+       background-color: #9c27b0;
+    }
+   }
+   &.avatar-indigo {
+     .avatar {
+       background-color: #3f51b5;
+     }
+   }
+   &.avatar-blue {
+     .avatar {
+       background-color: #2196f3;
+    }
+   }
+   &.avatar-light-blue {
+     .avatar {
+       background-color: #03a9f4;
+     }
+   }
+   &.avatar-cyan {
+     .avatar {
+       background-color: #4caf50;
+     }
+   }
+   &.avatar-teal {
+     .avatar {
+       background-color: #009688;
+     }
+   }
+   &.avatar-green {
+     .avatar {
+       background-color: #8bc34a;
+     }
+   }
+}

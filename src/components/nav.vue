@@ -5,17 +5,28 @@
             <i class="ion-ios-search"></i>
         </div> -->
         <div class="xcxerxes-aside__user" v-if="!isLogin">
-            <el-button class="aside-user__regist" type="text" @click="registHandle">注册</el-button>
-            <v-dialog transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible">
-                <register-form v-on:regist-change="registChange"></register-form>
+            <v-btn flat dark @click="registHandle">注册</v-btn>
+            <v-dialog persistent transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible"
+             >
+                <register-form v-on:regist-change="registChange" @close-handle="registClose" :loading="registLoading"></register-form>
             </v-dialog>
-            <el-button class="aside-user__login" type="text" @click="dialogLoginVisible = true">登录</el-button>
-            <el-dialog title="登录信息" :visible.sync="dialogLoginVisible">
-                <login-form v-on:login-change="loginChange"></login-form>
-            </el-dialog>
+            <v-btn dark flat @click="dialogLoginVisible = true">登录</v-btn>
+            <v-dialog title="登录信息" v-model="dialogLoginVisible" max-width="440px">
+                <login-form v-on:login-change="loginChange" @close-handle="loginClose" :loading="loginLoading"></login-form>
+            </v-dialog>
         </div>
         <div class="xcxerxes-aside__login" v-else>
-            <span style="color: #fff;">{{userInfo.login_username}}</span>
+            <v-list dark @click="" class="transparent">
+              <v-list-tile avatar >
+                <v-list-tile-avatar :class="userInfo.login_avatar">
+                    {{userInfo.login_username | parseUserName}}
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>{{userInfo.login_username}}</v-list-tile-title>   
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+            <v-divider dark></v-divider>
         </div>
         <div class="xcxerxes-aside__nav">
             <p>博客导航</p>
@@ -42,15 +53,19 @@
     </div>
 </template>
 <script>
+import mixins from '@/mixins'
 import xcxerxesLinkList from './link-list'
 import api from '@/api'
 import registerForm from './register-form'
 import loginForm from './login-form'
 import {mapGetters} from 'vuex'
 export default {
+  mixins: [mixins],
   data () {
     return {
-      dialogRegistVisible: true,
+      registLoading: false,
+      loginLoading: false,
+      dialogRegistVisible: false,
       dialogLoginVisible: false,
       linkList: [
         { title: '百度FEX', url: 'http://fex.baidu.com/' },
@@ -61,7 +76,6 @@ export default {
         { title: 'ISUX', url: 'http://isux.tencent.com/' },
         { title: '携程UED', url: 'https://aotu.io/' }
       ],
-      username: '',
       isLogin: false
     }
   },
@@ -71,17 +85,23 @@ export default {
     ])
   },
   methods: {
+    loginClose () {
+      this.dialogLoginVisible = false
+    },
+    registClose () {
+      console.log('close')
+      this.dialogRegistVisible = false
+    },
     registHandle () {
       this.dialogRegistVisible = true
     },
     loginChange (loginForm) {
-      console.log(loginForm)
+      this.loginLoading = true
       api.login(loginForm).then(data => {
-        console.log(data)
+        this.loginLoading = false
         if (data.code === 200) {
           this.dialogLoginVisible = false
           this.isLogin = true
-          this.username = loginForm.username
           this.$message({
             type: 'success',
             message: '登录成功'
@@ -89,14 +109,20 @@ export default {
           this.$store.commit('user_info_receive')
         }
       }).catch(err => {
+        this.loginLoading = false
         console.log(err)
       })
     },
-    registChange (registForm) {
-      console.log(registForm)
+    registChange (registForm, el) {
+      this.registLoading = true
       api.register(registForm).then(data => {
-
+        this.registLoading = false
+        if (data.code === 200) {
+          this.dialogRegistVisible = false
+          el.reset()
+        }
       }).catch(err => {
+        this.registLoading = false
         console.error(err)
       })
     }
