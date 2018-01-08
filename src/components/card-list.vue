@@ -1,12 +1,12 @@
 <template>
-  <v-content class="card-content">
+  <div class="card-content mt-1" transition="slide-x-reverse-transition">
     <v-layout row wrap>
-      <v-flex lg3 md4 xs12  v-for="(item, index) in articleList" :key="index" class="pa-1">
-        <v-card @click.native="openToItem(item)">
+      <v-flex lg3 md3 xs12  v-for="(item, index) in articleList" :key="index" class="pa-1">
+        <v-card @click.native="openToItem(item)" height="220px">
          <v-card-media height="150">
            <img :src="formatImg(item.thumb)" alt="" />
          </v-card-media>
-         <v-card-title class="card-title">
+         <v-card-title column class="card-title">
            <h3 color="pink">{{item.title}}</h3>
            <p>{{item.caption}}</p>
         </v-card-title> 
@@ -22,7 +22,7 @@
         </div>
       </div> -->
     </v-layout>
-  </v-content>
+  </div>
 </template>
 <script>
 import config from '@/config'
@@ -45,9 +45,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card-content {
-  padding: 5px;
   .card-title {
     padding: 5px;
+    flex-direction: column;
+    align-items: flex-start;
     h3 {
       font-size: 16px;
       line-height: 1.2;

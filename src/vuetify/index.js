@@ -7,6 +7,7 @@ import {
   VNavigationDrawer,
   VFooter,
   VList,
+  VSubheader,
   VBtn,
   VIcon,
   VGrid,
@@ -26,6 +27,7 @@ Vue.use(Vuetify, {
     VApp,
     VNavigationDrawer,
     VFooter,
+    VSubheader,
     VList,
     VBtn,
     VIcon,
@@ -41,12 +43,13 @@ Vue.use(Vuetify, {
     VProgressCircular
   },
   theme: {
-    primary: '#ee44aa',
+    primary: 'rgba(233, 233, 233, 0.9)',
     secondary: '#424242',
     accent: '#82B1FF',
     error: '#FF5252',
     info: '#2196F3',
     success: '#4CAF50',
-    warning: '#FFC107'
+    warning: '#FFC107',
+    dark: '#000000'
   }
 })

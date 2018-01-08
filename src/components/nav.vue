@@ -1,10 +1,67 @@
 <template>
     <div class="xcxerxes-aside">
+        <v-navigation-drawer dark app width="140">
+          <v-list class="xcxerxes-aside__link transparent">
+            <v-list-tile v-if="!isLogin" class="ml-1">
+              <v-list-tile-action>
+                  <a href="#" @click.prevent="registHandle">注册</a>
+              </v-list-tile-action>    
+              <v-list-tile-action>
+                  <a href="#"   @click.prevent="dialogLoginVisible = true">登录</a>
+              </v-list-tile-action>    
+            </v-list-tile>
+            <v-list-tile avatar v-else>
+                <v-list-tile-avatar :class="userInfo.login_avatar">
+                    {{userInfo.login_username | parseUserName}}
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>{{userInfo.login_username}}</v-list-tile-title>   
+                </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-divider dark></v-divider>
+          <v-list dense class="xcxerxes-aside__nav">
+            <v-subheader class="pa-1">博客导航</v-subheader>
+            <v-list-tile>
+                <v-list-tile-title>
+                    <router-link :to="{name: 'HomeArticle', query: {cate: 'all_001'}}">首页</router-link>
+                </v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile >
+                <v-list-tile-title>
+                    <router-link to="/book">图书推荐</router-link>
+                </v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile >
+                <v-list-tile-title>
+                    <router-link to="about">关于我</router-link>
+                </v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+          <v-divider dark></v-divider>
+          <v-list class="xcxerxes-aside__wx  pb-3">
+              <v-subheader class="pa-1">官方微信</v-subheader>
+              <v-list-tile>
+                <v-list-tile-content>
+                    <img src="../assets/images/qrcode.jpg"/>
+                </v-list-tile-content>
+              </v-list-tile>
+          </v-list>
+          <v-divider dark></v-divider>
+          <xcxerxes-link-list :data="linkList" />
+        </v-navigation-drawer>
+        <v-dialog persistent transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible"
+             >
+                <register-form v-on:regist-change="registChange" @close-handle="registClose" :loading="registLoading"></register-form>
+            </v-dialog>
+            <v-dialog title="登录信息" v-model="dialogLoginVisible" max-width="440px">
+                <login-form v-on:login-change="loginChange" @close-handle="loginClose" :loading="loginLoading"></login-form>
+            </v-dialog>
         <!-- <div class="xcxerxes-aside__search">
             <input class="xcxerxes-input aside-search__input" placeholder="关键字" />
             <i class="ion-ios-search"></i>
         </div> -->
-        <div class="xcxerxes-aside__user" v-if="!isLogin">
+        <!-- <div class="xcxerxes-aside__user" v-if="!isLogin">
             <v-btn flat dark @click="registHandle">注册</v-btn>
             <v-dialog persistent transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible"
              >
@@ -49,7 +106,7 @@
         <div class="xcxerxes-aside__link">
             <p>友情链接</p>
             <xcxerxes-link-list :data="linkList" />
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -142,7 +199,18 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+.xcxerxes-aside__wx {
+    .list__tile {
+        height: 80px;
+    }
+            .subheader {
+                color: #e43256;
+            }
+            img {
+                width: 80px;
+            }
+        }
 .xcxerxes-aside {
     position: absolute;
     left: 0;
@@ -188,48 +256,28 @@ export default {
             }
         }
         .xcxerxes-aside__nav {
-            margin-top: 60px;
-            p {
+            .subheader {
                 color: #e43256;
-                text-align: left;
-                margin-bottom: 10px;
             }
             li {
-                line-height: 36px;
                 a {
-                    color: rgba(233, 233, 233, 0.9);
+                    font-size: 12px;
                     &:hover {
                         color: rgba(255, 255, 255, 1);
                     }
                 }
             }
         }
-        .xcxerxes-aside__wx {
-            position: absolute;
-            bottom: 275px;
-            left: 0;
-            right: 0;
-            p {
-                color: #e43256;
-                margin: 0 0 15px 5px;
-                text-align: left;
-            }
-            img {
-                width: 80px;
-            }
-        }
+        
         .xcxerxes-aside__link {
-            position: absolute;
-            bottom: 30px;
-            left: 0;
-            right: 0;
-            p {
+            .subheader {
                 color: #e43256;
-                margin: 0 0 15px 5px;
-                text-align: left;
             }
             a {
-                font-size: 0.8rem;
+                font-size: 12px;
+                &:hover {
+                    color: rgba(255, 255, 255, 1);
+                }
             }
         }
     }

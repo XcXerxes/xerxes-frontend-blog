@@ -1,8 +1,9 @@
 <template>
+<div>
 <v-toolbar color="black" dark tabs>
   <v-toolbar-side-icon></v-toolbar-side-icon>
   <v-text-field
-      light
+      solo
       label="Search"
       append-icon="keyboard_voice"
       prepend-icon="search"
@@ -11,11 +12,14 @@
     <v-tab v-for="(item, index) in tabs" :key="index"  @click="handleClick(item, index)">
       <span style="color: white">{{item.cate_name}}</span>
     </v-tab>
-    <v-tab-item>
-      <card-list :article-list="articleList" v-on:item-change="cardChange" />
-    </v-tab-item>  
   </v-tabs>
-</v-toolbar>
+  </v-toolbar>
+    <!-- <v-tabs-items v-model="setIndx"> -->
+    <card-list :article-list="articleList" v-on:item-change="cardChange" />
+      <v-tab-item>
+      </v-tab-item>  
+    <!-- </v-tabs-items> -->
+    </div> 
 </template>
 <script>
 import _ from 'lodash'
