@@ -1,6 +1,6 @@
 <template>
-    <div class="xcxerxes-aside">
-        <v-navigation-drawer dark app width="140">
+   <!--  <div class="xcxerxes-aside"> -->
+        <v-navigation-drawer dark app width="140" disable-resize-watcher :value="drawerIsOpen">
           <v-list class="xcxerxes-aside__link transparent">
             <v-list-tile v-if="!isLogin" class="ml-1">
               <v-list-tile-action>
@@ -15,11 +15,17 @@
                     {{userInfo.login_username | parseUserName}}
                 </v-list-tile-avatar>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{userInfo.login_username}}</v-list-tile-title>   
+                    <v-list-tile-title>
+                        <v-tooltip bottom>
+                        <span slot="activator">{{userInfo.login_username}}</span> 
+                        <span>{{userInfo.login_username}}</span>
+                        </v-tooltip>
+                    </v-list-tile-title>   
                 </v-list-tile-content>
             </v-list-tile>
           </v-list>
           <v-divider dark></v-divider>
+          
           <v-list dense class="xcxerxes-aside__nav">
             <v-subheader class="pa-1">博客导航</v-subheader>
             <v-list-tile>
@@ -49,14 +55,46 @@
           </v-list>
           <v-divider dark></v-divider>
           <xcxerxes-link-list :data="linkList" />
-        </v-navigation-drawer>
-        <v-dialog persistent transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible"
-             >
+          <v-divider dark></v-divider>
+          <v-menu v-model="menuShow" position offset-x :open-on-click="false">
+              <v-list dense slot="activator">
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>设置</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                    <v-btn flat icon @contextmenu="menuShow" @click.native="isLogin && (menuShow = true)">
+                        <v-icon>settings</v-icon>
+                    </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+          </v-list>
+              <v-list dense>
+              <v-list-tile>
+                <v-list-tile-action>
+                    <v-btn flat>
+                        修改密码
+                    </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+              <v-list-tile>
+                  <v-list-tile-action>
+                    <v-btn flat>
+                        退出登录
+                    </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+          </v-list>
+          </v-menu>
+          
+            <v-dialog persistent transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible"
+            >
                 <register-form v-on:regist-change="registChange" @close-handle="registClose" :loading="registLoading"></register-form>
             </v-dialog>
             <v-dialog title="登录信息" v-model="dialogLoginVisible" max-width="440px">
                 <login-form v-on:login-change="loginChange" @close-handle="loginClose" :loading="loginLoading"></login-form>
             </v-dialog>
+        </v-navigation-drawer>
         <!-- <div class="xcxerxes-aside__search">
             <input class="xcxerxes-input aside-search__input" placeholder="关键字" />
             <i class="ion-ios-search"></i>
@@ -107,7 +145,7 @@
             <p>友情链接</p>
             <xcxerxes-link-list :data="linkList" />
         </div> -->
-    </div>
+    <!-- </div> -->
 </template>
 <script>
 import mixins from '@/mixins'
@@ -124,6 +162,7 @@ export default {
       loginLoading: false,
       dialogRegistVisible: false,
       dialogLoginVisible: false,
+      menuShow: false,
       linkList: [
         { title: '百度FEX', url: 'http://fex.baidu.com/' },
         { title: '淘宝FED', url: 'http://taobaofed.org/' },
@@ -138,7 +177,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userInfo'
+      'userInfo',
+      'drawerIsOpen'
     ])
   },
   methods: {
@@ -204,13 +244,40 @@ export default {
     .list__tile {
         height: 80px;
     }
-            .subheader {
-                color: #e43256;
-            }
-            img {
-                width: 80px;
+    .subheader {
+        color: #e43256;
+    }
+    img {
+        width: 80px;
+    }
+}
+.xcxerxes-aside__nav {
+    .subheader {
+        color: #e43256;
+    }
+    li {
+        a {
+            font-size: 12px;
+            color: rgba(233, 233, 233, .9);
+            &:hover {
+                color: rgba(255, 255, 255, 1);
             }
         }
+    }
+}
+        
+.xcxerxes-aside__link {
+    .subheader {
+        color: #e43256;
+    }
+    a {
+        font-size: 12px;
+        color: rgba(233, 233, 233, .9);
+        &:hover {
+            color: rgba(255, 255, 255, 1);
+        }
+    }
+}
 .xcxerxes-aside {
     position: absolute;
     left: 0;
@@ -255,31 +322,7 @@ export default {
                 }
             }
         }
-        .xcxerxes-aside__nav {
-            .subheader {
-                color: #e43256;
-            }
-            li {
-                a {
-                    font-size: 12px;
-                    &:hover {
-                        color: rgba(255, 255, 255, 1);
-                    }
-                }
-            }
-        }
         
-        .xcxerxes-aside__link {
-            .subheader {
-                color: #e43256;
-            }
-            a {
-                font-size: 12px;
-                &:hover {
-                    color: rgba(255, 255, 255, 1);
-                }
-            }
-        }
     }
 }
 </style>

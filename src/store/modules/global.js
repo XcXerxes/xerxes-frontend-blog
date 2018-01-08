@@ -1,13 +1,16 @@
 import * as types from '../mutation-types'
 import Cookies from 'js-cookie'
 const state = {
-  userInfo: {}
+  userInfo: {},
+  drawerIsOpen: true
 }
 const getters = {
-  userInfo: state => state.userInfo
+  userInfo: state => state.userInfo,
+  drawerIsOpen: state => state.drawerIsOpen
 }
 
 const mutations = {
+  // 用户信息
   [types.USER_INFO_RECEIVE] (state) {
     if (Cookies.get('login_userid')) {
       /* eslint-disable */
@@ -20,6 +23,10 @@ const mutations = {
         login_avatar
       }
     }
+  },
+  // 关闭导航
+  [types.SWITCH_DRAWER_OPEN] (state) {
+    state.drawerIsOpen = !state.drawerIsOpen
   }
 }
 

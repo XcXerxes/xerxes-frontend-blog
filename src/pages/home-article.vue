@@ -1,7 +1,8 @@
 <template>
-  <section class="home-wrapper">
+  <section class="home-wrapper" :class="!drawerIsOpen ? 'is-not-open' : ''">
     <div class="home-wrapper__content" v-loading="homeLoading" element-loading-text="拼命加载中...">
-      <home-tabs :tabs="tabs" :activeId='activeCateId' v-on:active-handle="tabsChange" :article-list="articleList" v-on:card-change="openToArticleItem" />
+      <home-tabs :tabs="tabs" :activeId='activeCateId' v-on:active-handle="tabsChange" @drawer-handle="drawerHandle"
+       :article-list="articleList" v-on:card-change="openToArticleItem" />
     </div>
   </section>
 </template>
@@ -13,7 +14,8 @@ export default {
   data () {
     return {
       page: 1,
-      limit: 12
+      limit: 12,
+      isOpen: true
       /* tabs: [
         {id: '001', cate_name: 'CSS设计模式', cate_sort: 1},
         {id: '002', cate_name: 'NodeJs', cate_sort: 3},
@@ -29,10 +31,15 @@ export default {
       'tabs',
       'activeCateId',
       'homeLoading',
-      'articleList'
+      'articleList',
+      'drawerIsOpen'
     ])
   },
   methods: {
+    // 切换导航抽屉
+    drawerHandle () {
+      this.$store.commit('switch_drawer_open')
+    },
     // 打开详情页
     openToArticleItem (item) {
       this.$router.push({name: 'articleDetail', params: {id: item.id}})

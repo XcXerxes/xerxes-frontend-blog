@@ -1,7 +1,7 @@
 <template>
 <div>
 <v-toolbar color="black" dark tabs>
-  <v-toolbar-side-icon></v-toolbar-side-icon>
+  <v-toolbar-side-icon @click.native="switchDrawers"></v-toolbar-side-icon>
   <v-text-field
       solo
       label="Search"
@@ -14,17 +14,21 @@
     </v-tab>
   </v-tabs>
   </v-toolbar>
-    <!-- <v-tabs-items v-model="setIndx"> -->
-    <card-list :article-list="articleList" v-on:item-change="cardChange" />
+    <v-tabs-items>
+      <card-list :article-list="articleList" v-on:item-change="cardChange" />
       <v-tab-item>
       </v-tab-item>  
-    <!-- </v-tabs-items> -->
+    </v-tabs-items>
     </div> 
 </template>
 <script>
 import _ from 'lodash'
 import cardList from '@/components/card-list'
 export default {
+  isOpen: {
+    type: Boolean,
+    default: false
+  },
   props: {
     tabs: {
       type: Array,
@@ -73,6 +77,9 @@ export default {
     }
   },
   methods: {
+    switchDrawers () {
+      this.$emit('drawer-handle')
+    },
     handleClick (tab, event) {
       console.log(tab)
       this.$emit('active-handle', tab)

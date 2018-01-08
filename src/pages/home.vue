@@ -1,7 +1,10 @@
 <template>
     <div>
         <xerxes-nav />
+        <keep-alive>
+
         <router-view />
+        </keep-alive>
     </div>
 </template>
 <script>

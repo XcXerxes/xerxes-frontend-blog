@@ -19,6 +19,8 @@ import {
   VDialog,
   VTextField,
   VDivider,
+  VMenu,
+  VTooltip,
   VProgressCircular
 } from 'vuetify'
 
@@ -40,10 +42,12 @@ Vue.use(Vuetify, {
     VDialog,
     VTextField,
     VDivider,
+    VMenu,
+    VTooltip,
     VProgressCircular
   },
   theme: {
-    primary: 'rgba(233, 233, 233, 0.9)',
+    primary: '#e43256',
     secondary: '#424242',
     accent: '#82B1FF',
     error: '#FF5252',
