@@ -60,7 +60,6 @@ const mutations = {
         return a.cate_sort - b.cate_sort
       })
       state.cateList = [{id: 'all_001', cate_name: '全部'}].concat(state.cateList)
-      debugger
       state.activeCateId = ''
     } else {
       state.cateList = list

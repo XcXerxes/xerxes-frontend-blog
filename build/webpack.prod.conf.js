@@ -39,6 +39,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       sourceMap: true
     }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // lodash 按需打包
     new LodashModuleReplacementPlugin(),
     // extract css into its own file

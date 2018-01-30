@@ -15,3 +15,5 @@ export const ARTICLE_ITEM_FAIL = 'article_item_fail'
 // user
 export const USER_INFO_RECEIVE = 'user_info_receive'
 export const SWITCH_DRAWER_OPEN = 'switch_drawer_open'
+export const SWITCH_DRAWER_CLOSE = 'switch_drawer_close'
+export const CLEAR_USER_INFO = 'clear_user_info'

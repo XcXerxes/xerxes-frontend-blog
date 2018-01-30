@@ -4,11 +4,12 @@
   <v-toolbar-side-icon @click.native="switchDrawers"></v-toolbar-side-icon>
   <v-text-field
       solo
+      light
       label="Search"
       append-icon="keyboard_voice"
       prepend-icon="search"
     ></v-text-field>
-  <v-tabs v-model="setIndx" grow color="black" slider-color="pink" slot="extension">
+  <v-tabs v-model="setIndx" grow slider-color="pink" slot="extension">
     <v-tab v-for="(item, index) in tabs" :key="index"  @click="handleClick(item, index)">
       <span style="color: white">{{item.cate_name}}</span>
     </v-tab>

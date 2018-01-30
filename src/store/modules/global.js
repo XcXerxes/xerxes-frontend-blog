@@ -22,11 +22,24 @@ const mutations = {
         login_username,
         login_avatar
       }
+    } else {
+      state.userInfo = {}
     }
   },
-  // 关闭导航
+  // 切换导航
   [types.SWITCH_DRAWER_OPEN] (state) {
     state.drawerIsOpen = !state.drawerIsOpen
+  },
+  // 关闭导航
+  [types.SWITCH_DRAWER_CLOSE] (state) {
+    state.drawerIsOpen = false
+  },
+  // 清楚cookie
+  [types.CLEAR_USER_INFO] (state) {
+    Cookies.remove('login_userid')
+    Cookies.remove('login_username')
+    Cookies.remove('login_avatar')
+    Cookies.remove('token')
   }
 }
 

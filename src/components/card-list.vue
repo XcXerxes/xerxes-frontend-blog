@@ -2,7 +2,7 @@
   <div class="card-content mt-1" transition="slide-x-reverse-transition">
     <v-layout row wrap>
       <v-flex lg3 md3 xs12  v-for="(item, index) in articleList" :key="index" class="pa-1">
-        <v-card @click.native="openToItem(item)" height="220px">
+        <v-card @click.native="openToItem(item)" height="220px" style="cursor: pointer">
          <v-card-media height="150">
            <img :src="formatImg(item.thumb)" alt="" />
          </v-card-media>

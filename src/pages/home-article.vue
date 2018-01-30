@@ -1,6 +1,6 @@
 <template>
   <section class="home-wrapper" :class="!drawerIsOpen ? 'is-not-open' : ''">
-    <div class="home-wrapper__content" v-loading="homeLoading" element-loading-text="拼命加载中...">
+    <div class="home-wrapper__content">
       <home-tabs :tabs="tabs" :activeId='activeCateId' v-on:active-handle="tabsChange" @drawer-handle="drawerHandle"
        :article-list="articleList" v-on:card-change="openToArticleItem" />
     </div>
@@ -30,7 +30,6 @@ export default {
     ...mapGetters([
       'tabs',
       'activeCateId',
-      'homeLoading',
       'articleList',
       'drawerIsOpen'
     ])
@@ -45,7 +44,6 @@ export default {
       this.$router.push({name: 'articleDetail', params: {id: item.id}})
     },
     tabsChange (tab) {
-      debugger
       this.$router.replace({name: 'HomeArticle', query: {cate: tab.id}})
       if (this.activeCateId !== tab.name) {
         /*
@@ -96,11 +94,9 @@ export default {
   },
   created () {
     const name = this.$route.query.cate || ''
-    console.log(`name======${name}`)
     this.$store.dispatch('fetchCateList').then(() => {
       this.$store.commit('selected_cate', {name})
     })
-    console.log('created')
     this.$store.dispatch('fetchArticleList', {
       page: this.page,
       limit: this.limit,

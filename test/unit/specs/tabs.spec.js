@@ -28,5 +28,3 @@ describe('tabs', () => {
     })).to.equal('all_001')
   })
 })
-
-

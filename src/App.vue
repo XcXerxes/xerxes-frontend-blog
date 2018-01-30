@@ -11,4 +11,6 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/scss/normalize';
+@import './assets/scss/public';
 </style>

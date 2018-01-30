@@ -3,18 +3,24 @@
 import Vue from 'vue'
 import App from './App'
 import './vuetify'
-import 'babel-polyfill'
-import 'es6-promise/auto'
 import router from './router'
-import './assets/scss/normalize.scss'
-import './assets/scss/public.scss'
+import Noty from 'noty'
+import 'noty/lib/noty.css'
+import 'noty/lib/themes/nest.css'
 import './assets/css/ionicons.min.css'
-import './element-config'
 import store from './store'
-import registerServiceWorker from './registerServiceWorker'
+import _ from 'lodash'
 
-window._ = require('lodash')
 Vue.config.productionTip = false
+
+Vue.prototype.$noty = function (options) {
+  const params = {
+    layout: 'topCenter',
+    theme: 'nest',
+    timeout: 1500
+  }
+  return new Noty(_.merge(params, options))
+}
 
 /* eslint-disable no-new */
 new Vue({
@@ -24,4 +30,3 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
-registerServiceWorker()

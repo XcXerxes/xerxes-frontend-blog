@@ -1,12 +1,14 @@
 <template>
-  <section class="home-wrapper article-wrapper" id="article-wrapper">
+  <section class="home-wrapper article-wrapper" id="article-wrapper" :class="!drawerIsOpen ? 'is-not-open' : ''">
     <div class="article-wrapper__content" ref="el" style="transform: translateX(1920px)">
       <div class="article-wrapper__title">
         <h2>{{articleItem.title}}</h2>
         <p>In <span :style="{color: '#e43256'}">{{formatCate}}</span> on <span :style="{color: '#e43256'}">{{formatTime}}</span> By <span :style="{color: '#e43256'}">xcxerxes</span></p>
       </div>
+      <v-divider></v-divider>
       <div class="article-wrapper__html markdown-body" v-html="articleItem.html">
       </div>
+      <v-divider></v-divider>
       <div class="article-comment">
         <comment-form @comment-submit="submitComment"/>
       </div>
@@ -14,7 +16,6 @@
   </section>
 </template>
 <script>
-import Cookies from 'js-cookie'
 import commentForm from '@/components/comment-form'
 import {mapGetters} from 'vuex'
 import moment from 'moment'
@@ -24,7 +25,8 @@ export default {
   computed: {
     ...mapGetters([
       'articleItem',
-      'articleLoading'
+      'articleLoading',
+      'drawerIsOpen'
     ]),
     formatTime () {
       return moment(this.articleItem.updatedAt).format('YYYY-MM-DD HH:mm:ss')
@@ -41,7 +43,6 @@ export default {
     }
   },
   created () {
-    console.log(Cookies.get())
     const id = this.$route.params.id
     this.$store.dispatch('fetchArticleItem', {id})
   },
@@ -72,11 +73,9 @@ export default {
         @at-root {
           .article-wrapper__html {
             margin-bottom: 30px;
+            margin-top: 10px;
           }
           .article-wrapper__title {
-            h2 {
-              font-weight: 300;
-            }
             text-align: center;
             margin: 1.5rem auto;
             p {
@@ -90,5 +89,8 @@ export default {
         }
       }
     }
+  }
+  .article-comment {
+    margin-top: 15px;
   }
 </style>

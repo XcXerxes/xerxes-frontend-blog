@@ -65,6 +65,14 @@ export default {
       .then(data => data)
       .catch(err => err)
   },
+  // 登出
+  logout () {
+    return fetch(`${config.api}/frontend/user/logout`, _parseParams('POST'))
+      .then(checkStatus)
+      .then(_parseResponse)
+      .then(data => data)
+      .catch(err => err)
+  },
   // 获取所有的分类列表
   getCateList () {
     return fetch(`${config.api}/frontend/cate/list`, _parseParams())
@@ -74,7 +82,7 @@ export default {
         return data
       })
       .catch(err => {
-        return err
+        Promise.reject(err)
       })
   },
   // 获取文章列表信息

@@ -1,8 +1,8 @@
 <template>
    <!--  <div class="xcxerxes-aside"> -->
-        <v-navigation-drawer dark app width="140" disable-resize-watcher :value="drawerIsOpen">
+        <v-navigation-drawer dark app width="140" :value="drawerIsOpen" @input="drawerHandle">
           <v-list class="xcxerxes-aside__link transparent">
-            <v-list-tile v-if="!isLogin" class="ml-1">
+            <v-list-tile v-if="!userInfo.login_userid" class="ml-1">
               <v-list-tile-action>
                   <a href="#" @click.prevent="registHandle">注册</a>
               </v-list-tile-action>    
@@ -63,7 +63,7 @@
                   <v-list-tile-title>设置</v-list-tile-title>
                 </v-list-tile-content>
                 <v-list-tile-action>
-                    <v-btn flat icon @contextmenu="menuShow" @click.native="isLogin && (menuShow = true)">
+                    <v-btn flat icon @contextmenu="menuShow" @click.native="userInfo.login_userid && (menuShow = true)">
                         <v-icon>settings</v-icon>
                     </v-btn>
                 </v-list-tile-action>
@@ -79,7 +79,7 @@
               </v-list-tile>
               <v-list-tile>
                   <v-list-tile-action>
-                    <v-btn flat>
+                    <v-btn flat @click="logout">
                         退出登录
                     </v-btn>
                 </v-list-tile-action>
@@ -95,57 +95,6 @@
                 <login-form v-on:login-change="loginChange" @close-handle="loginClose" :loading="loginLoading"></login-form>
             </v-dialog>
         </v-navigation-drawer>
-        <!-- <div class="xcxerxes-aside__search">
-            <input class="xcxerxes-input aside-search__input" placeholder="关键字" />
-            <i class="ion-ios-search"></i>
-        </div> -->
-        <!-- <div class="xcxerxes-aside__user" v-if="!isLogin">
-            <v-btn flat dark @click="registHandle">注册</v-btn>
-            <v-dialog persistent transition="dialog-bottom-transition" title="注册信息" max-width="440px" v-model="dialogRegistVisible"
-             >
-                <register-form v-on:regist-change="registChange" @close-handle="registClose" :loading="registLoading"></register-form>
-            </v-dialog>
-            <v-btn dark flat @click="dialogLoginVisible = true">登录</v-btn>
-            <v-dialog title="登录信息" v-model="dialogLoginVisible" max-width="440px">
-                <login-form v-on:login-change="loginChange" @close-handle="loginClose" :loading="loginLoading"></login-form>
-            </v-dialog>
-        </div>
-        <div class="xcxerxes-aside__login" v-else>
-            <v-list dark @click="" class="transparent">
-              <v-list-tile avatar >
-                <v-list-tile-avatar :class="userInfo.login_avatar">
-                    {{userInfo.login_username | parseUserName}}
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                    <v-list-tile-title>{{userInfo.login_username}}</v-list-tile-title>   
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-            <v-divider dark></v-divider>
-        </div>
-        <div class="xcxerxes-aside__nav">
-            <p>博客导航</p>
-            <ul class="xcxerxes-aside__ul">
-                <li>
-                    <router-link :to="{name: 'HomeArticle', query: {cate: 'all_001'}}">首页</router-link>
-                </li>
-                <li>
-                    <router-link to="/book">图书推荐</router-link>
-                </li>
-                <li>
-                    <router-link to="about">关于我</router-link>
-                </li>
-            </ul>
-        </div>
-        <div class="xcxerxes-aside__wx">
-            <p>官方微信</p>
-            <img src="../assets/images/qrcode.jpg" />
-        </div>
-        <div class="xcxerxes-aside__link">
-            <p>友情链接</p>
-            <xcxerxes-link-list :data="linkList" />
-        </div> -->
-    <!-- </div> -->
 </template>
 <script>
 import mixins from '@/mixins'
@@ -171,8 +120,7 @@ export default {
         { title: '凹凸实验室', url: 'https://aotu.io/' },
         { title: 'ISUX', url: 'http://isux.tencent.com/' },
         { title: '携程UED', url: 'https://aotu.io/' }
-      ],
-      isLogin: false
+      ]
     }
   },
   computed: {
@@ -182,6 +130,26 @@ export default {
     ])
   },
   methods: {
+    // 登出
+    logout () {
+      api.logout().then(data => {
+        if (data.code === 200) {
+          this.$noty({
+            type: 'success',
+            text: '登出成功'
+          }).show()
+          this.$store.commit('clear_user_info')
+          this.$store.commit('user_info_receive')
+        }
+      })
+    },
+    // 开关导航
+    drawerHandle (value) {
+      if (!value) {
+        this.$store.commit('switch_drawer_close', false)
+      }
+      // this.$store.commit('switch_drawer_open')
+    },
     loginClose () {
       this.dialogLoginVisible = false
     },
@@ -198,16 +166,18 @@ export default {
         this.loginLoading = false
         if (data.code === 200) {
           this.dialogLoginVisible = false
-          this.isLogin = true
-          this.$message({
+          this.$noty({
             type: 'success',
-            message: '登录成功'
-          })
+            text: '登录成功'
+          }).show()
           this.$store.commit('user_info_receive')
         }
       }).catch(err => {
         this.loginLoading = false
-        console.log(err)
+        this.$noty({
+          type: 'error',
+          text: err
+        })
       })
     },
     registChange (registForm, el) {
@@ -216,21 +186,23 @@ export default {
         this.registLoading = false
         if (data.code === 200) {
           this.dialogRegistVisible = false
+          this.$noty({
+            type: 'success',
+            text: '注册成功'
+          })
           el.reset()
         }
       }).catch(err => {
         this.registLoading = false
-        console.error(err)
+        this.$noty({
+          type: 'error',
+          text: err
+        })
       })
     }
   },
   created () {
     this.$store.commit('user_info_receive')
-    if (this.$store.getters.userInfo.login_username) {
-      this.isLogin = true
-    } else {
-      this.isLogin = false
-    }
   },
   components: {
     xcxerxesLinkList,
@@ -253,6 +225,9 @@ export default {
 }
 .xcxerxes-aside__nav {
     .subheader {
+        color: #e43256;
+    }
+    .router-link-active {
         color: #e43256;
     }
     li {
