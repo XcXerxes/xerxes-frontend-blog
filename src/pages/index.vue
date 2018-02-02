@@ -71,7 +71,7 @@ export default {
 
 .xcxerxes-content {
   position: absolute;
-  top: 35%;
+  top: 36%;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
